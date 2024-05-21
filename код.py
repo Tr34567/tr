@@ -6,124 +6,124 @@ from scipy import stats
 from scipy.stats import norm
 
 df = pd.read_csv('flights_NY.csv').dropna()
-df['Ïîëîæèòåëüíàÿ çàäåðæêà'] = df['arr_delay'].apply(lambda x: 1 if x > 0 else 0)
+df['ÐŸÐ¾Ð»Ð¾Ð¶Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð°Ñ Ð·Ð°Ð´ÐµÑ€Ð¶ÐºÐ°'] = df['arr_delay'].apply(lambda x: 1 if x > 0 else 0)
 
-# --- Ñåêöèÿ ðàñ÷åòà è âèçóàëèçàöèè êîððåëÿöèè ---
+# --- Ð¡ÐµÐºÑ†Ð¸Ñ Ñ€Ð°ÑÑ‡ÐµÑ‚Ð° Ð¸ Ð²Ð¸Ð·ÑƒÐ°Ð»Ð¸Ð·Ð°Ñ†Ð¸Ð¸ ÐºÐ¾Ñ€Ñ€ÐµÐ»ÑÑ†Ð¸Ð¸ ---
 correlation_coefficient = df['distance'].corr(df['air_time'])
-print("Êîýôôèöèåíò êîððåëÿöèè:", correlation_coefficient)
+print("ÐšÐ¾ÑÑ„Ñ„Ð¸Ñ†Ð¸ÐµÐ½Ñ‚ ÐºÐ¾Ñ€Ñ€ÐµÐ»ÑÑ†Ð¸Ð¸:", correlation_coefficient)
 plt.figure(figsize=(10, 6))
 sns.scatterplot(data=df, x='distance', y='air_time')
-plt.title('Äèàãðàììà ðàñïðåäåëåíèÿ ðàññòîÿíèÿ îò âðåìåíè ïîëåòà')
-plt.xlabel('Ðàññòîÿíèå')
-plt.ylabel('Âðåìÿ ïîëåòà')
+plt.title('Ð”Ð¸Ð°Ð³Ñ€Ð°Ð¼Ð¼Ð° Ñ€Ð°ÑÐ¿Ñ€ÐµÐ´ÐµÐ»ÐµÐ½Ð¸Ñ Ñ€Ð°ÑÑÑ‚Ð¾ÑÐ½Ð¸Ñ Ð¾Ñ‚ Ð²Ñ€ÐµÐ¼ÐµÐ½Ð¸ Ð¿Ð¾Ð»ÐµÑ‚Ð°')
+plt.xlabel('Ð Ð°ÑÑÑ‚Ð¾ÑÐ½Ð¸Ðµ')
+plt.ylabel('Ð’Ñ€ÐµÐ¼Ñ Ð¿Ð¾Ð»ÐµÑ‚Ð°')
 plt.grid(True)
 slope, intercept, r_value, p_value, std_err = stats.linregress(df['distance'], df['air_time'])
 x_values = np.array([df['distance'].min(), df['distance'].max()])
 y_values = slope * x_values + intercept
-plt.plot(x_values, y_values, color='purple', linewidth=2) # Èçìåíèëè öâåò ëèíèè íà ôèîëåòîâûé
+plt.plot(x_values, y_values, color='purple', linewidth=2) # Ð˜Ð·Ð¼ÐµÐ½Ð¸Ð»Ð¸ Ñ†Ð²ÐµÑ‚ Ð»Ð¸Ð½Ð¸Ð¸ Ð½Ð° Ñ„Ð¸Ð¾Ð»ÐµÑ‚Ð¾Ð²Ñ‹Ð¹
 plt.show()
-print("Êîýôôèöèåíòû ëèíåéíîé ðåãðåññèè:")
+print("ÐšÐ¾ÑÑ„Ñ„Ð¸Ñ†Ð¸ÐµÐ½Ñ‚Ñ‹ Ð»Ð¸Ð½ÐµÐ¹Ð½Ð¾Ð¹ Ñ€ÐµÐ³Ñ€ÐµÑÑÐ¸Ð¸:")
 print("slope:", slope)
 print("intercept:", intercept)
 
-# --- Ñåêöèÿ àíàëèçà çàäåðæåê â ïðåäåëàõ 15 ìèíóò ---
+# --- Ð¡ÐµÐºÑ†Ð¸Ñ Ð°Ð½Ð°Ð»Ð¸Ð·Ð° Ð·Ð°Ð´ÐµÑ€Ð¶ÐµÐº Ð² Ð¿Ñ€ÐµÐ´ÐµÐ»Ð°Ñ… 15 Ð¼Ð¸Ð½ÑƒÑ‚ ---
 df_within_15_minutes = df[(df['dep_delay'] >= -15) & (df['dep_delay'] <= 15)]
 plt.figure(figsize=(10, 6))
-sns.histplot(df_within_15_minutes['arr_delay'], bins=30, kde=True, stat='density', color='orange') # Èçìåíèëè öâåò ãèñòîãðàììû íà îðàíæåâûé
-plt.title('Íîðìèðîâàííàÿ ãèñòîãðàììà ðàñïðåäåëåíèÿ çàäåðæêè ïðèëåòà')
-plt.xlabel('Çàäåðæêà ïðèëåòà')
+sns.histplot(df_within_15_minutes['arr_delay'], bins=30, kde=True, stat='density', color='orange') # Ð˜Ð·Ð¼ÐµÐ½Ð¸Ð»Ð¸ Ñ†Ð²ÐµÑ‚ Ð³Ð¸ÑÑ‚Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ñ‹ Ð½Ð° Ð¾Ñ€Ð°Ð½Ð¶ÐµÐ²Ñ‹Ð¹
+plt.title('ÐÐ¾Ñ€Ð¼Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð°Ñ Ð³Ð¸ÑÑ‚Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ð° Ñ€Ð°ÑÐ¿Ñ€ÐµÐ´ÐµÐ»ÐµÐ½Ð¸Ñ Ð·Ð°Ð´ÐµÑ€Ð¶ÐºÐ¸ Ð¿Ñ€Ð¸Ð»ÐµÑ‚Ð°')
+plt.xlabel('Ð—Ð°Ð´ÐµÑ€Ð¶ÐºÐ° Ð¿Ñ€Ð¸Ð»ÐµÑ‚Ð°')
 m, std = norm.fit(df_within_15_minutes['arr_delay'])
 xmin, xmax = plt.xlim()
 xety = np.linspace(xmin, xmax, 100)
 pwr = norm.pdf(xety, m, std)
 plt.plot(xety, pwr, 'k', linewidth=2)
-plt.legend(['Íîðìàëüíîå ðàñïðåäåëåíèå ($\\mu$={:.2f}, $\\sigma$={:.2f})'.format(m, std), 'Ãèñòîãðàììà'])
+plt.legend(['ÐÐ¾Ñ€Ð¼Ð°Ð»ÑŒÐ½Ð¾Ðµ Ñ€Ð°ÑÐ¿Ñ€ÐµÐ´ÐµÐ»ÐµÐ½Ð¸Ðµ ($\\mu$={:.2f}, $\\sigma$={:.2f})'.format(m, std), 'Ð“Ð¸ÑÑ‚Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ð°'])
 plt.grid(True)
 plt.show()
-print("Îöåíåííûå ïàðàìåòðû ðàñïðåäåëåíèÿ:")
-print("Ñðåäíåå çíà÷åíèå çàäåðæêè:", m)
-print("Ñòàíäàðòíîå îòêëîíåíèå:", std)
+print("ÐžÑ†ÐµÐ½ÐµÐ½Ð½Ñ‹Ðµ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ñ‹ Ñ€Ð°ÑÐ¿Ñ€ÐµÐ´ÐµÐ»ÐµÐ½Ð¸Ñ:")
+print("Ð¡Ñ€ÐµÐ´Ð½ÐµÐµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð·Ð°Ð´ÐµÑ€Ð¶ÐºÐ¸:", m)
+print("Ð¡Ñ‚Ð°Ð½Ð´Ð°Ñ€Ñ‚Ð½Ð¾Ðµ Ð¾Ñ‚ÐºÐ»Ð¾Ð½ÐµÐ½Ð¸Ðµ:", std)
 
-# --- Ñåêöèÿ ãðóïïèðîâêè ïî àâèàêîìïàíèÿì è ïîñòðîåíèÿ ãðàôèêà ---
-delay_counts = df.groupby('carrier')['Ïîëîæèòåëüíàÿ çàäåðæêà'].mean().sort_values(ascending=True)
+# --- Ð¡ÐµÐºÑ†Ð¸Ñ Ð³Ñ€ÑƒÐ¿Ð¿Ð¸Ñ€Ð¾Ð²ÐºÐ¸ Ð¿Ð¾ Ð°Ð²Ð¸Ð°ÐºÐ¾Ð¼Ð¿Ð°Ð½Ð¸ÑÐ¼ Ð¸ Ð¿Ð¾ÑÑ‚Ñ€Ð¾ÐµÐ½Ð¸Ñ Ð³Ñ€Ð°Ñ„Ð¸ÐºÐ° ---
+delay_counts = df.groupby('carrier')['ÐŸÐ¾Ð»Ð¾Ð¶Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð°Ñ Ð·Ð°Ð´ÐµÑ€Ð¶ÐºÐ°'].mean().sort_values(ascending=True)
 plt.figure(figsize=(10, 6))
 delay_counts.plot(kind='bar', color=['skyblue', 'lightgreen', 'lightcoral', 'lightpink', 'lightsalmon', 'gold', 'lightgray', 'wheat', 'khaki', 'palegoldenrod', 'plum', 'palevioletred', 'powderblue'])
-plt.title('Ðàñïðåäåëåíèå âåðîÿòíîñòè ïîëîæèòåëüíîé çàäåðæêè ïî àâèàêîìïàíèÿì')
-plt.xlabel('Àâèàêîìïàíèÿ')
-plt.ylabel('Âåðîÿòíîñòü ïîëîæèòåëüíîé çàäåðæêè')
+plt.title('Ð Ð°ÑÐ¿Ñ€ÐµÐ´ÐµÐ»ÐµÐ½Ð¸Ðµ Ð²ÐµÑ€Ð¾ÑÑ‚Ð½Ð¾ÑÑ‚Ð¸ Ð¿Ð¾Ð»Ð¾Ð¶Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ð¹ Ð·Ð°Ð´ÐµÑ€Ð¶ÐºÐ¸ Ð¿Ð¾ Ð°Ð²Ð¸Ð°ÐºÐ¾Ð¼Ð¿Ð°Ð½Ð¸ÑÐ¼')
+plt.xlabel('ÐÐ²Ð¸Ð°ÐºÐ¾Ð¼Ð¿Ð°Ð½Ð¸Ñ')
+plt.ylabel('Ð’ÐµÑ€Ð¾ÑÑ‚Ð½Ð¾ÑÑ‚ÑŒ Ð¿Ð¾Ð»Ð¾Ð¶Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ð¹ Ð·Ð°Ð´ÐµÑ€Ð¶ÐºÐ¸')
 plt.tight_layout()
 plt.show()
 
-# --- Ñåêöèÿ àíàëèçà ðàññòîÿíèÿ ïåðåëåòà ---
+# --- Ð¡ÐµÐºÑ†Ð¸Ñ Ð°Ð½Ð°Ð»Ð¸Ð·Ð° Ñ€Ð°ÑÑÑ‚Ð¾ÑÐ½Ð¸Ñ Ð¿ÐµÑ€ÐµÐ»ÐµÑ‚Ð° ---
 plt.figure(figsize=(10, 6))
 plt.hist(df['distance'], bins=50, color='lightgreen', edgecolor='lightpink')
-plt.title('Ðàñïðåäåëåíèå ðàññòîÿíèÿ ïåðåëåòà')
-plt.xlabel('Ðàññòîÿíèå')
+plt.title('Ð Ð°ÑÐ¿Ñ€ÐµÐ´ÐµÐ»ÐµÐ½Ð¸Ðµ Ñ€Ð°ÑÑÑ‚Ð¾ÑÐ½Ð¸Ñ Ð¿ÐµÑ€ÐµÐ»ÐµÑ‚Ð°')
+plt.xlabel('Ð Ð°ÑÑÑ‚Ð¾ÑÐ½Ð¸Ðµ')
 plt.grid(True)
 plt.show()
 
-# --- Ñåêöèÿ ãðóïïèðîâêè ïî êàòåãîðèÿì ðàññòîÿíèÿ ---
+# --- Ð¡ÐµÐºÑ†Ð¸Ñ Ð³Ñ€ÑƒÐ¿Ð¿Ð¸Ñ€Ð¾Ð²ÐºÐ¸ Ð¿Ð¾ ÐºÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸ÑÐ¼ Ñ€Ð°ÑÑÑ‚Ð¾ÑÐ½Ð¸Ñ ---
 quantiles = df['distance'].quantile([0.25, 0.5, 0.75])
-print("Êâàíòèëè:\n", quantiles)
+print("ÐšÐ²Ð°Ð½Ñ‚Ð¸Ð»Ð¸:\n", quantiles)
 short_distance = quantiles.loc[0.25]
 medium_distance = quantiles.loc[0.5]
 long_distance = quantiles.loc[0.75]
-print("\nÃðàíèöû ãðóïï:")
-print("Êîðîòêèå: äî", short_distance)
-print("Ñðåäíèå: îò", short_distance, "äî", medium_distance)
-print("Äëèííûå: îò", medium_distance, "è âûøå")
-category_labels = ['Êîðîòêèé', 'Ñðåäíèé', 'Äëèííûé']
-df['Êàòåãîðèÿ ïåðåëåòà'] = pd.cut(df['distance'], bins=[0, quantiles[0.25], quantiles[0.5], df['distance'].max()], labels=category_labels[0:])
-long_flights_destinations = df[df['Êàòåãîðèÿ ïåðåëåòà'] == 'Äëèííûé']['dest'].unique()
-print("Íàïðàâëåíèÿ äëÿ äëèííûõ ïåðåëåòîâ:", long_flights_destinations)
-average_delay_by_category = df.groupby('Êàòåãîðèÿ ïåðåëåòà', observed=False)['dep_delay'].mean()
-print("Ñðåäíåå âðåìÿ çàäåðæêè âûëåòà â çàâèñèìîñòè îò êàòåãîðèè ïåðåëåòà:\n", average_delay_by_category)
+print("\nÐ“Ñ€Ð°Ð½Ð¸Ñ†Ñ‹ Ð³Ñ€ÑƒÐ¿Ð¿:")
+print("ÐšÐ¾Ñ€Ð¾Ñ‚ÐºÐ¸Ðµ: Ð´Ð¾", short_distance)
+print("Ð¡Ñ€ÐµÐ´Ð½Ð¸Ðµ: Ð¾Ñ‚", short_distance, "Ð´Ð¾", medium_distance)
+print("Ð”Ð»Ð¸Ð½Ð½Ñ‹Ðµ: Ð¾Ñ‚", medium_distance, "Ð¸ Ð²Ñ‹ÑˆÐµ")
+category_labels = ['ÐšÐ¾Ñ€Ð¾Ñ‚ÐºÐ¸Ð¹', 'Ð¡Ñ€ÐµÐ´Ð½Ð¸Ð¹', 'Ð”Ð»Ð¸Ð½Ð½Ñ‹Ð¹']
+df['ÐšÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸Ñ Ð¿ÐµÑ€ÐµÐ»ÐµÑ‚Ð°'] = pd.cut(df['distance'], bins=[0, quantiles[0.25], quantiles[0.5], df['distance'].max()], labels=category_labels[0:])
+long_flights_destinations = df[df['ÐšÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸Ñ Ð¿ÐµÑ€ÐµÐ»ÐµÑ‚Ð°'] == 'Ð”Ð»Ð¸Ð½Ð½Ñ‹Ð¹']['dest'].unique()
+print("ÐÐ°Ð¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸Ñ Ð´Ð»Ñ Ð´Ð»Ð¸Ð½Ð½Ñ‹Ñ… Ð¿ÐµÑ€ÐµÐ»ÐµÑ‚Ð¾Ð²:", long_flights_destinations)
+average_delay_by_category = df.groupby('ÐšÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸Ñ Ð¿ÐµÑ€ÐµÐ»ÐµÑ‚Ð°', observed=False)['dep_delay'].mean()
+print("Ð¡Ñ€ÐµÐ´Ð½ÐµÐµ Ð²Ñ€ÐµÐ¼Ñ Ð·Ð°Ð´ÐµÑ€Ð¶ÐºÐ¸ Ð²Ñ‹Ð»ÐµÑ‚Ð° Ð² Ð·Ð°Ð²Ð¸ÑÐ¸Ð¼Ð¾ÑÑ‚Ð¸ Ð¾Ñ‚ ÐºÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸Ð¸ Ð¿ÐµÑ€ÐµÐ»ÐµÑ‚Ð°:\n", average_delay_by_category)
 
-# --- Ñåêöèÿ àíàëèçà çàäåðæêè ïî ìåñÿöàì ---
+# --- Ð¡ÐµÐºÑ†Ð¸Ñ Ð°Ð½Ð°Ð»Ð¸Ð·Ð° Ð·Ð°Ð´ÐµÑ€Ð¶ÐºÐ¸ Ð¿Ð¾ Ð¼ÐµÑÑÑ†Ð°Ð¼ ---
 df['month'] = pd.to_datetime(df['month'], format='%m').dt.month_name()
 plt.figure(figsize=(10, 6))
-sns.pointplot(data=df, x='month', y='dep_delay', errorbar=('ci', 95), color='salmon') # Èçìåíèëè öâåò òî÷åê íà ëîñîñåâûé
-plt.title('Ñðåäíåå âðåìÿ çàäåðæêè ïî ìåñÿöàì')
-plt.xlabel('Ìåñÿö')
-plt.ylabel('Ñðåäíåå âðåìÿ çàäåðæêè')
+sns.pointplot(data=df, x='month', y='dep_delay', errorbar=('ci', 95), color='salmon') # Ð˜Ð·Ð¼ÐµÐ½Ð¸Ð»Ð¸ Ñ†Ð²ÐµÑ‚ Ñ‚Ð¾Ñ‡ÐµÐº Ð½Ð° Ð»Ð¾ÑÐ¾ÑÐµÐ²Ñ‹Ð¹
+plt.title('Ð¡Ñ€ÐµÐ´Ð½ÐµÐµ Ð²Ñ€ÐµÐ¼Ñ Ð·Ð°Ð´ÐµÑ€Ð¶ÐºÐ¸ Ð¿Ð¾ Ð¼ÐµÑÑÑ†Ð°Ð¼')
+plt.xlabel('ÐœÐµÑÑÑ†')
+plt.ylabel('Ð¡Ñ€ÐµÐ´Ð½ÐµÐµ Ð²Ñ€ÐµÐ¼Ñ Ð·Ð°Ð´ÐµÑ€Ð¶ÐºÐ¸')
 plt.xticks(rotation=45)
 plt.grid(True)
 plt.tight_layout()
 plt.show()
 
-# --- Ñåêöèÿ t-òåñòà ---
+# --- Ð¡ÐµÐºÑ†Ð¸Ñ t-Ñ‚ÐµÑÑ‚Ð° ---
 january_data = df[df['month'] == 'January']['dep_delay']
 february_data = df[df['month'] == 'February']['dep_delay']
 t_statistic, p_value = stats.ttest_ind(january_data, february_data)
 al = 0.05
 if p_value < al:
-    print("íà óðîâíå çíà÷èìîñòè 0.05 ãèïîòåçà îòâåðãàåòñÿ")
+    print("Ð½Ð° ÑƒÑ€Ð¾Ð²Ð½Ðµ Ð·Ð½Ð°Ñ‡Ð¸Ð¼Ð¾ÑÑ‚Ð¸ 0.05 Ð³Ð¸Ð¿Ð¾Ñ‚ÐµÐ·Ð° Ð¾Ñ‚Ð²ÐµÑ€Ð³Ð°ÐµÑ‚ÑÑ")
 else:
-    print("íà óðîâíå çíà÷èìîñòè 0.05 ãèïîòåçà íå îòâåðãàåòñÿ")
+    print("Ð½Ð° ÑƒÑ€Ð¾Ð²Ð½Ðµ Ð·Ð½Ð°Ñ‡Ð¸Ð¼Ð¾ÑÑ‚Ð¸ 0.05 Ð³Ð¸Ð¿Ð¾Ñ‚ÐµÐ·Ð° Ð½Ðµ Ð¾Ñ‚Ð²ÐµÑ€Ð³Ð°ÐµÑ‚ÑÑ")
 al = 0.01
 if p_value < al:
-    print("íà óðîâíå çíà÷èìîñòè 0.01 ãèïîòåçà îòâåðãàåòñÿ")
+    print("Ð½Ð° ÑƒÑ€Ð¾Ð²Ð½Ðµ Ð·Ð½Ð°Ñ‡Ð¸Ð¼Ð¾ÑÑ‚Ð¸ 0.01 Ð³Ð¸Ð¿Ð¾Ñ‚ÐµÐ·Ð° Ð¾Ñ‚Ð²ÐµÑ€Ð³Ð°ÐµÑ‚ÑÑ")
 else:
-    print("íà óðîâíå çíà÷èìîñòè 0.01 ãèïîòåçà íå îòâåðãàåòñÿ")
+    print("Ð½Ð° ÑƒÑ€Ð¾Ð²Ð½Ðµ Ð·Ð½Ð°Ñ‡Ð¸Ð¼Ð¾ÑÑ‚Ð¸ 0.01 Ð³Ð¸Ð¿Ð¾Ñ‚ÐµÐ·Ð° Ð½Ðµ Ð¾Ñ‚Ð²ÐµÑ€Ð³Ð°ÐµÑ‚ÑÑ")
 
-# Òåñò õè-êâàäðàò äëÿ ïðîâåðêè ñîîòâåòñòâèÿ íîðìàëüíîìó ðàñïðåäåëåíèþ
-# Ðàçäåëèì äàííûå íà èíòåðâàëû 
+# Ð¢ÐµÑÑ‚ Ñ…Ð¸-ÐºÐ²Ð°Ð´Ñ€Ð°Ñ‚ Ð´Ð»Ñ Ð¿Ñ€Ð¾Ð²ÐµÑ€ÐºÐ¸ ÑÐ¾Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²Ð¸Ñ Ð½Ð¾Ñ€Ð¼Ð°Ð»ÑŒÐ½Ð¾Ð¼Ñƒ Ñ€Ð°ÑÐ¿Ñ€ÐµÐ´ÐµÐ»ÐµÐ½Ð¸ÑŽ
+# Ð Ð°Ð·Ð´ÐµÐ»Ð¸Ð¼ Ð´Ð°Ð½Ð½Ñ‹Ðµ Ð½Ð° Ð¸Ð½Ñ‚ÐµÑ€Ð²Ð°Ð»Ñ‹ 
 intervals = np.linspace(df_within_15_minutes['arr_delay'].min(), df_within_15_minutes['arr_delay'].max(), 10)
 observed_frequencies = np.histogram(df_within_15_minutes['arr_delay'], bins=intervals)[0]
 expected_frequencies = norm.cdf(intervals, loc=m, scale=std)
 expected_frequencies = np.diff(expected_frequencies) * len(df_within_15_minutes)
 
-# Âû÷èñëÿåì ñòàòèñòèêó õè-êâàäðàò
+# Ð’Ñ‹Ñ‡Ð¸ÑÐ»ÑÐµÐ¼ ÑÑ‚Ð°Ñ‚Ð¸ÑÑ‚Ð¸ÐºÑƒ Ñ…Ð¸-ÐºÐ²Ð°Ð´Ñ€Ð°Ñ‚
 chi2_statistic = np.sum((observed_frequencies - expected_frequencies)**2 / expected_frequencies)
 
-# Âû÷èñëÿåì p-çíà÷åíèå
+# Ð’Ñ‹Ñ‡Ð¸ÑÐ»ÑÐµÐ¼ p-Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ
 p_value = 1 - chi2.cdf(chi2_statistic, len(intervals) - 1)
 
-print("Ñòàòèñòèêà õè-êâàäðàò:", chi2_statistic)
-print("p-çíà÷åíèå:", p_value)
+print("Ð¡Ñ‚Ð°Ñ‚Ð¸ÑÑ‚Ð¸ÐºÐ° Ñ…Ð¸-ÐºÐ²Ð°Ð´Ñ€Ð°Ñ‚:", chi2_statistic)
+print("p-Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ:", p_value)
 
 al = 0.05
 if p_value < al:
-    print("Íà óðîâíå çíà÷èìîñòè 0.05 ãèïîòåçà î íîðìàëüíîì ðàñïðåäåëåíèè îòâåðãàåòñÿ.")
+    print("ÐÐ° ÑƒÑ€Ð¾Ð²Ð½Ðµ Ð·Ð½Ð°Ñ‡Ð¸Ð¼Ð¾ÑÑ‚Ð¸ 0.05 Ð³Ð¸Ð¿Ð¾Ñ‚ÐµÐ·Ð° Ð¾ Ð½Ð¾Ñ€Ð¼Ð°Ð»ÑŒÐ½Ð¾Ð¼ Ñ€Ð°ÑÐ¿Ñ€ÐµÐ´ÐµÐ»ÐµÐ½Ð¸Ð¸ Ð¾Ñ‚Ð²ÐµÑ€Ð³Ð°ÐµÑ‚ÑÑ.")
 else:
-    print("Íà óðîâíå çíà÷èìîñòè 0.05 ãèïîòåçà î íîðìàëüíîì ðàñïðåäåëåíèè íå îòâåðãàåòñÿ.")
+    print("ÐÐ° ÑƒÑ€Ð¾Ð²Ð½Ðµ Ð·Ð½Ð°Ñ‡Ð¸Ð¼Ð¾ÑÑ‚Ð¸ 0.05 Ð³Ð¸Ð¿Ð¾Ñ‚ÐµÐ·Ð° Ð¾ Ð½Ð¾Ñ€Ð¼Ð°Ð»ÑŒÐ½Ð¾Ð¼ Ñ€Ð°ÑÐ¿Ñ€ÐµÐ´ÐµÐ»ÐµÐ½Ð¸Ð¸ Ð½Ðµ Ð¾Ñ‚Ð²ÐµÑ€Ð³Ð°ÐµÑ‚ÑÑ.")
